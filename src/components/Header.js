@@ -1,11 +1,4 @@
 import React from 'react';
-/*
-  Todos los componentes de hooks son stateless functional por lo tanto
-  no se importa Components. Solo se importa React
-
-  Existen diferentes formas en las que se pueden generar, mientras sea
-  una función esta bien como se genera
-*/
 
 function Header({titulo}){
   return(

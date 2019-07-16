@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+/*
+  Gracias a los hooks es posible trabajar con el state cuando se tiene una
+  función. Ya no es necesario declarar la clase, o sea, trabajar con un class component
+
+  Con los hooks el state puede ser cualquier tipo de dato, no solo un obj
+
+  Pero se debe importar el useState
+*/
 function Formulario(){
 
+  // State del componente
+  // busqueda es igual al state y guardar busqueda es igual a this.setState
+  const [busqueda, guardarBusqueda] = useState({
+    ciudad: '',
+    pais: ''
+  })
+
+  //Cambiar el state
+  /*
+    Tomamos una copia del state para no perder la referencia del otro campo
+  */
   const handleChange = e => {
-    //Cambiar el state
+    guardarBusqueda({
+      ...busqueda,
+      [e.target.name]: e.target.value
+    })
+
+    console.log(busqueda);
   }
 
   return(
