@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+/*
+  Con hooks no existen los métodos del ciclo de vida, en su defecto
+  se importa el hook useEffect
+*/
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header'
 import Formulario from './components/Formulario'
 import Error from './components/Error'
@@ -10,6 +14,36 @@ function App() {
   const [ciudad, guardarCiudad] = useState('');
   const [pais, guardarPais] = useState('');
   const [error, guardarError]= useState(false);
+  const [resultado, guardarResultado]= useState({});
+
+  /*
+    El segundo parametro corresponde a un arreglo de dependencias que dirá
+    que parte del state tiene que estar escuchando el useEffect para ejecutarse
+
+    useEffect toma el lugar de componentDidMount y el de componentDidUpdate
+
+    La doc de React recomienda consumir la API dentro del useEffect
+  */
+  useEffect(() => {
+
+    // Prevenir ejecución
+    if(ciudad==='') return;
+
+    // Consumir la API
+    const consultarAPI = async () => {
+      
+      const appId = 'f4a9cbe9e3b579c082f286bfcaff827a';
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`
+
+      // Consultar la URL
+      const respuesta = await fetch(url);
+      const resultado = await respuesta.json();
+
+      guardarResultado(resultado);
+    }
+
+    consultarAPI();
+  }, [ciudad, pais]);
 
   const datosConsulta = datos => {
 
