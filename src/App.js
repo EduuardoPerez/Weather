@@ -1,29 +1,17 @@
-/*
-  Con hooks no existen los métodos del ciclo de vida, en su defecto
-  se importa el hook useEffect
-*/
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header'
 import Formulario from './components/Formulario'
 import Error from './components/Error'
+import Clima from './components/Clima'
 
 function App() {
 
   // State principal
-  // ciudad, pais y error corresponde al state, los guardar* corresponden al this.setState
   const [ciudad, guardarCiudad] = useState('');
   const [pais, guardarPais] = useState('');
   const [error, guardarError]= useState(false);
   const [resultado, guardarResultado]= useState({});
 
-  /*
-    El segundo parametro corresponde a un arreglo de dependencias que dirá
-    que parte del state tiene que estar escuchando el useEffect para ejecutarse
-
-    useEffect toma el lugar de componentDidMount y el de componentDidUpdate
-
-    La doc de React recomienda consumir la API dentro del useEffect
-  */
   useEffect(() => {
 
     // Prevenir ejecución
@@ -38,6 +26,8 @@ function App() {
       // Consultar la URL
       const respuesta = await fetch(url);
       const resultado = await respuesta.json();
+
+      console.log(resultado);
 
       guardarResultado(resultado);
     }
@@ -62,11 +52,15 @@ function App() {
   // Cargar un componente condicionalmente
   let componente;
   if(error){
-    // hay un error, mostrarlo
+    // Si hay un error, mostrarlo
     componente = <Error mensaje="Ambos campos son obligatorios" />
+  } else if(resultado.cod==="404") {
+    componente = <Error mensaje="La ciudad no existe en nuestro registro" />
   } else {
     // Mostrar el clima
-    componente = null;
+    componente = <Clima
+                  resultado = {resultado}
+                />;
   }
 
   return (

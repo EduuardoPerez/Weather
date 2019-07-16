@@ -14,8 +14,6 @@ function Formulario({datosConsulta}){
       ...busqueda,
       [e.target.name]: e.target.value
     })
-
-    console.log(busqueda);
   }
 
   const consultarClima = e => {
